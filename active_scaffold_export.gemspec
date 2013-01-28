@@ -16,28 +16,10 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README"
   ]
-  s.files = [
-    ".document",
-    "LICENSE.txt",
-    "README",
-    "Rakefile",
-    "active_scaffold_export.gemspec",
-    "app/assets/images/export.png",
-    "app/assets/stylesheets/active_scaffold_export.css.erb",
-    "app/assets/stylesheets/export-stylesheet-ie.css",
-    "frontends/default/views/_export.csv.erb",
-    "frontends/default/views/_export_form_body.html.erb",
-    "frontends/default/views/_show_export.html.erb",
-    "frontends/default/views/show_export.html.erb",
-    "init.rb",
-    "lib/active_scaffold/actions/export.rb",
-    "lib/active_scaffold/config/export.rb",
-    "lib/active_scaffold/helpers/export_helpers.rb",
-    "lib/active_scaffold_export.rb",
-    "lib/active_scaffold_export/config/core.rb",
-    "lib/active_scaffold_export/engine.rb",
-    "lib/active_scaffold_export/version.rb"
-  ]
+  ignores = File.readlines('.gitignore').grep(/\S+/).map {|s| s.chomp }
+  dotfiles = [ '.gitignore' ]
+  s.files = (Dir["**/*"].reject { |f| File.directory?(f) || ignores.any? { |i|
+File.fnmatch(i, f) } } + dotfiles).sort
   s.homepage = "http://github.com/naaano/active_scaffold_export"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
