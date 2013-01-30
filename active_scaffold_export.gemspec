@@ -5,21 +5,39 @@
 
 Gem::Specification.new do |s|
   s.name = "active_scaffold_export"
-  s.version = "3.2.2"
+  s.version = "3.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Volker Hochstein", "Sergio Cambra", "Hernan Astudillo"]
-  s.date = "2012-03-06"
+  s.date = "2012-12-13"
   s.description = "Exporting Records with ActiveScaffold"
   s.email = "activescaffold@googlegroups.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README"
   ]
-  ignores = File.readlines('.gitignore').grep(/\S+/).map {|s| s.chomp }
-  dotfiles = [ '.gitignore' ]
-  s.files = (Dir["**/*"].reject { |f| File.directory?(f) || ignores.any? { |i|
-File.fnmatch(i, f) } } + dotfiles).sort
+  s.files = [
+    ".document",
+    "LICENSE.txt",
+    "README",
+    "Rakefile",
+    "init.rb",
+    "active_scaffold_export.gemspec",
+    "app/assets/images/export.png",
+    "app/assets/stylesheets/active_scaffold_export.css.erb",
+    "app/assets/stylesheets/export-stylesheet-ie.css",
+    "app/views/active_scaffold_overrides/_export.csv.erb",
+    "app/views/active_scaffold_overrides/_export_form_body.html.erb",
+    "app/views/active_scaffold_overrides/_show_export.html.erb",
+    "app/views/active_scaffold_overrides/show_export.html.erb",
+    "lib/active_scaffold/actions/export.rb",
+    "lib/active_scaffold/config/export.rb",
+    "lib/active_scaffold/helpers/export_helpers.rb",
+    "lib/active_scaffold_export.rb",
+    "lib/active_scaffold_export/config/core.rb",
+    "lib/active_scaffold_export/engine.rb",
+    "lib/active_scaffold_export/version.rb"
+  ]
   s.homepage = "http://github.com/naaano/active_scaffold_export"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
