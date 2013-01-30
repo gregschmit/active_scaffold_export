@@ -14,12 +14,12 @@ Gem::Specification.new do |s|
   s.email = "activescaffold@googlegroups.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README"
+    "README.md"
   ]
   s.files = [
     ".document",
     "LICENSE.txt",
-    "README",
+    "README.md",
     "Rakefile",
     "init.rb",
     "active_scaffold_export.gemspec",
