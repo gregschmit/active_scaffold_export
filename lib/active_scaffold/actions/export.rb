@@ -40,7 +40,11 @@ module ActiveScaffold::Actions
         params.merge!(options)
       end
 
-      @export_columns = export_config.columns.reject { |col| params[:export_columns][col.name.to_sym].nil? }
+      # Force sorting columns to be included in the export list. Fixes exception
+      # when a scaffold is sorted against a relation column and the relation
+      # column is not included in the export list.
+      sorting = active_scaffold_config.list.user.sorting || active_scaffold_config.list.sorting
+      @export_columns = export_config.columns.reject { |col| ! sorting.sorts_on?(col) && params[:export_columns][col.name.to_sym].nil? }
       includes_for_export_columns = @export_columns.collect{ |col| col.includes }.flatten.uniq.compact
       self.active_scaffold_includes.concat includes_for_export_columns
       @export_config = export_config
