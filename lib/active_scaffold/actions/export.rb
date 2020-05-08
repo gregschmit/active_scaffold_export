@@ -23,9 +23,7 @@ module ActiveScaffold::Actions
       export_config = active_scaffold_config.export
       if params[:export_columns].nil?
         export_columns = {}
-        export_config.columns.each { |col|
-          export_columns[col.name.to_sym] = 1
-        }
+        export_config.columns.each { |col| export_columns[col.to_sym] = 1 }
         options = {
           :export_columns => export_columns,
           :full_download => export_config.default_full_download.to_s,
@@ -76,7 +74,7 @@ module ActiveScaffold::Actions
             sheet.add_row(@export_columns.collect { |column| view_context.format_export_column_header_name(column) }, style: header) unless params[:skip_header]
             find_items_for_export do |records|
               records.each do |record|
-                sheet.add_row @export_columns.collect{|column| view_context.get_export_column_value(record, column, false)}
+                sheet.add_row @export_columns.collect { |column| view_context.get_export_column_value(record, column, false) }
               end
             end
           end
@@ -91,10 +89,10 @@ module ActiveScaffold::Actions
 
     protected
     def export_columns
-      @export_columns = active_scaffold_config.export.columns.reject { |col| params[:export_columns][col.name.to_sym].nil? }
+      @export_columns = active_scaffold_config.export.columns.reject { |col| params[:export_columns][col.to_sym].nil? }
       sorting = active_scaffold_config.list.user.sorting || active_scaffold_config.list.sorting
-      sorting_columns = sorting.reject { |col, _| @export_columns.include?(col) }.map(&:first)
-      @export_columns + sorting_columns
+      sorting_columns = sorting.reject { |col, _| @export_columns.include?(col.name) }.map(&:first)
+      @export_columns.map { |col| active_scaffold_config.columns[col] } + sorting_columns
     end
 
     # The actual algorithm to do the export
