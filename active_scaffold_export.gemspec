@@ -40,5 +40,5 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.summary = "Ability to export records to CSV/XLSX with ActiveScaffold"
-  s.add_runtime_dependency 'active_scaffold', '>= 3.3.0.rc'
+  s.add_runtime_dependency 'active_scaffold', '>= 3.6.0.pre'
 end
