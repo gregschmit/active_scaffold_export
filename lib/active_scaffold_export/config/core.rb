@@ -15,6 +15,6 @@ ActiveScaffold::Config::Core.class_eval do
       :export_default_delimiter, :export_default_skip_header, 
       :export_default_file_format, :export_xlsx_avaliable
 
-  ActionDispatch::Routing::ACTIVE_SCAFFOLD_CORE_ROUTING[:collection][:show_export] = :get
-  ActionDispatch::Routing::ACTIVE_SCAFFOLD_CORE_ROUTING[:collection][:export] = :post
+  ActiveScaffold::Routing::ACTIVE_SCAFFOLD_CORE_ROUTING[:collection][:show_export] = :get
+  ActiveScaffold::Routing::ACTIVE_SCAFFOLD_CORE_ROUTING[:collection][:export] = :post
 end
