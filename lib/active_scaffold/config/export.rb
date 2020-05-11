@@ -69,15 +69,7 @@ module ActiveScaffold::Config
       Gem::Specification::find_all_by_name('axlsx_rails').any?
     end
 
-    # provides access to the list of columns specifically meant for this action to use
-    def columns
-      self.columns = @core.columns._inheritable unless @columns
-      @columns
-    end
-    def columns=(val)
-      @columns = ActiveScaffold::DataStructures::ActionColumns.new(*val)
-      @columns.action = self
-    end
+    columns_accessor :columns
 
     def multipart?
       false
