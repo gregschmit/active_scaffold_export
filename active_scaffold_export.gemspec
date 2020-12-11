@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
     "lib/active_scaffold_export/engine.rb",
     "lib/active_scaffold_export/version.rb"
   ]
-  s.homepage = "http://github.com/naaano/active_scaffold_export"
+  s.homepage = "http://github.com/active_scaffold/active_scaffold_export"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.summary = "Ability to export records to CSV/XLSX with ActiveScaffold"
