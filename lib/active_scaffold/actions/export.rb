@@ -1,8 +1,8 @@
 module ActiveScaffold::Actions
   module Export
     def self.included(base)
-      base.before_filter :export_authorized?, :only => [:export]
-      base.before_filter :show_export_authorized?, :only => [:show_export]
+      base.before_action :export_authorized?, :only => [:export]
+      base.before_action :show_export_authorized?, :only => [:show_export]
     end
 
     # display the customization form or skip directly to export
@@ -23,9 +23,7 @@ module ActiveScaffold::Actions
       export_config = active_scaffold_config.export
       if params[:export_columns].nil?
         export_columns = {}
-        export_config.columns.each { |col|
-          export_columns[col.name.to_sym] = 1
-        }
+        export_config.columns.each { |col| export_columns[col.to_sym] = 1 }
         options = {
           :export_columns => export_columns,
           :full_download => export_config.default_full_download.to_s,
@@ -68,7 +66,7 @@ module ActiveScaffold::Actions
             end
           end
         end
-        format.xlsx do 
+        format.xlsx do
           response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
           p = Axlsx::Package.new
           header = p.workbook.styles.add_style sz: 11, b: true,:bg_color => "69B5EF", :fg_color => "FF", alignment: { horizontal: :center }
@@ -76,13 +74,13 @@ module ActiveScaffold::Actions
             sheet.add_row(@export_columns.collect { |column| view_context.format_export_column_header_name(column) }, style: header) unless params[:skip_header]
             find_items_for_export do |records|
               records.each do |record|
-                sheet.add_row @export_columns.collect{|column| view_context.get_export_column_value(record, column, false)}
+                sheet.add_row @export_columns.collect { |column| view_context.get_export_column_value(record, column, false) }
               end
             end
           end
           stream = p.to_stream # when adding rows to sheet, they won't pass to this stream if declared before. axlsx issue?
           self.response_body = Enumerator.new do |y|
-            y << stream.read 
+            y << stream.read
           end
         end
 
@@ -91,10 +89,12 @@ module ActiveScaffold::Actions
 
     protected
     def export_columns
-      @export_columns = active_scaffold_config.export.columns.reject { |col| params[:export_columns][col.name.to_sym].nil? }
+      return @export_columns if defined? @export_columns
+      @export_columns = active_scaffold_config.export.columns.reject { |col| params[:export_columns][col.to_sym].nil? }
       sorting = active_scaffold_config.list.user.sorting || active_scaffold_config.list.sorting
-      sorting_columns = sorting.reject { |col, _| @export_columns.include?(col) }.map(&:first)
-      @export_columns + sorting_columns
+      sorting_columns = sorting.reject { |col, _| @export_columns.include?(col.name) }.map(&:first)
+      @export_columns.map! { |col| active_scaffold_config.columns[col] }
+      @export_columns += sorting_columns
     end
 
     # The actual algorithm to do the export

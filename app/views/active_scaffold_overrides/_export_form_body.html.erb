@@ -1,12 +1,12 @@
 <% export_config = active_scaffold_config.export %>
 <h3><%=as_(:columns_for_export)%></h3>
-<% if ActiveScaffold.js_framework == :jquery %>
-<%= link_to 'Select All',  '#', :onclick => 'jQuery(".columnCheckbox").prop("checked", true);',  :class => 'active-scaffold-footer' %>
-&nbsp;&nbsp;
-<%= link_to 'Select None', '#', :onclick => 'jQuery(".columnCheckbox").prop("checked", false);', :class => 'active-scaffold-footer' %>
+<% if ActiveScaffold.js_framework == :jquery # TODO: use JS asset instead of inline JS %>
+<%= link_to as_(:select_all), '#', onclick: 'jQuery(".columnCheckbox").prop("checked", true); return false', class: 'active-scaffold-footer' %>
+ |
+<%= link_to as_(:select_none), '#', onclick: 'jQuery(".columnCheckbox").prop("checked", false); return false', class: 'active-scaffold-footer' %>
 <% end %>
 <div class="columns checkbox-list">
-<% export_config.columns.each do |column| -%>
+<% export_config.columns.each_column do |column| -%>
   <div class="column checkbox-wrapper">
     <%= content_tag(:label, check_box_tag("export_columns[#{column.name}]", 1, !export_config.default_deselected_columns.include?(column.name), :class => 'columnCheckbox') + "&nbsp;#{column.label}".html_safe) %>
   </div>
